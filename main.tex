@@ -1,0 +1,174 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{minted}
+\usepackage{booktabs}
+\usepackage[left=25mm,top=25mm,right=25mm,bottom=25mm,includehead,nofoot,headheight=0pt,headsep=5mm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[hidelinks]{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\renewcommand{\baselinestretch}{1.0}
+\renewcommand{\figurename}{Figure}
+\renewcommand{\refname}{References}
+\raggedbottom
+
+\hypersetup{
+    pdftitle={An estimate of the number of items published in journals under the Subscribe to Open business model},
+    pdfauthor={Ross Mounce},
+    pdfsubject={Subscribe to Open publishing},
+    pdfkeywords={Subscribe to Open, S2O, Open Access}
+}
+
+\bibliographystyle{plainnat}
+
+\begin{document}
+\pagestyle{empty}
+\begin{center}
+{\Large\bf An estimate of the number of items published in journals under the Subscribe to Open business model  }\\[10pt]
+\begin{tabular}{ccc}
+Ross Mounce$^*$\\
+ross.mounce@gmail.com
+\end{tabular}\\[10pt]
+$^*$Arcadia Fund, London, England.
+\end{center}
+
+\rule[1ex]{\textwidth}{.2pt}
+{\bf Abstract:} Leveraging OpenAlex data I count how many items have been published in open access under the Subscribe to Open (S2O) model across 31 different publishers, from 2020 to 2025. The data aggregation reveals that over 58,000 items have been published open access under S2O. Between 2024 and 2025 the number of items published under S2O nearly doubled: from 12294 to 24041 published items.\\
+{\bf Keywords:} Subscribe to Open, S2O, Open Access
+
+\rule[1ex]{\textwidth}{.2pt}
+\section{Introduction}
+In this short technical paper, I attempt to document the growth over time of the Subscribe to Open (S2O) business model for open access from 2020 to 2025, paying particular attention to counting the number of items published with open access under this model.
+
+For explanations, definitions, and perspectives on the S2O business model I'd recommend e.g. Langham-Putrow \& Carter~\citep{langhamPutrow2020}, Crow et al.~\citep{crow2020}, or Brundy \& Steel~\citep{brundySteel2021}.
+
+The Subscribe to Open community of practice makes available on its website (\url{https://subscribetoopencommunity.org/}) a tabulated listing of the numbers of journals which implement the model. But journals are not necessarily a standard comparable unit: some academic journals publish just 8 items a year, whereas other journals such as \textit{Scientific Reports} can publish in excess of 45,000 items a year. To get a more informative assessment of the scale of publishing of S2O journals, this paper attempts to document the scale with item-level counts, rather than just journal-level counts.
+
+I have no plans to submit this work to an academic journal. This work is merely written-up in a concise way for the interest of others with an interest in scholarly communications.
+
+\section{Methods}
+
+With the help of the Subscribe to Open community of practice, I identified 384 journals, published by 31 different publishers, that have published one or more items in open access under the S2O business model between 2020-01-01 and 2025-12-31.
+
+I use the word `item' intentionally rather than `article' as not every countable item that a journal publishes is necessarily a peer-reviewed journal article. I make no effort here to distinguish between journal articles and other published item types. Examples of other published item types in journals include editorials, corrections, errata, retraction notices, obituaries, and letters to the editor.
+
+For each of these 384 journals I compiled its unique ISSN\nobreakdash-L, Wikidata Q\nobreakdash-number (where available), and OpenAlexID (where available).
+Using information from each of the 31 publisher websites I also compiled when publishing content under open access under the S2O business model started for each journal. I also compiled the date in which publishing content in open access under the S2O business model ended, which in the case of IWA Publishing was in 2024.\footnote{Rather confusingly, in 2024, IWA Publishing switched to a model they first called ``S2O Assured'' before changing the name of this to ``Subscribed Open Access'' in 2026~\citep{hejaziLygizou2026}. For the avoidance of doubt, I and many others in the Subscribe to Open Community of Practice do not consider the IWA Publishing model from 2024-2026 to be true Subscribe to Open and hence it is excluded from my analyses for this period of time.}
+
+Where I discovered that the journal had no entry representing it in Wikidata, I created an entry for it. An example of this is the journal \textit{Mondes \& Migrations} (ISSN\nobreakdash-L: 3075-6812) which has been entered into Wikidata as Q134444890.
+
+There were three journals for which I could find no identifier for in OpenAlex:
+
+\begin{itemize}
+    \item \textit{CUSP: Late Nineteenth and Early Twentieth Century Cultures} (ISSN\nobreakdash-L: 2768-6361)
+    \item \textit{Mondes \& Migrations} (ISSN\nobreakdash-L: 3075-6812)
+    \item \textit{Climates and Cultures in History} (ISSN\nobreakdash-L: 2635-1331)
+\end{itemize}
+
+\par
+\medskip
+
+Using the programming language R (version 4.4.1), and these R packages: \texttt{openalexR} (version 3.0.1), \texttt{dplyr} (version 1.1.4), and \texttt{purrr} (version 1.0.2), I wrote some simple code (see Annex) to gather a count of the number of items published in each of the S2O journals during the calendar years in which S2O was operating for each journal, up until the date: 31-12-2025~\citep{aria2024,wickhamDplyr2023,wickhamPurrr2023}.
+
+For the three journals not yet included in OpenAlex I examined their websites to count the number of items published in each S2O year manually.
+
+Publishers are welcome to contact me if they feel there are any errors, omissions, or misunderstandings in my data.
+
+\section{Results and Discussion}
+
+\begin{table}[htbp]
+\centering
+\setlength{\tabcolsep}{12pt}
+\caption{Annual number of items published through S2O journals} \label{tab:s2o_items} \begin{tabular}{lrrr} \toprule Year & No. of S2O journals & Items Published & Annual Growth Rate \\ \midrule 2020 & 24 & 802 & -- \\ 2021 & 74 & 4,323 & +439\% \\ 2022 & 102 & 6,954 & +61\% \\ 2023 & 169 & 9,681 & +39\% \\ 2024 & 192 & 12,294 & +27\% \\ 2025 & 378 & 24,041 & +96\% \\ \midrule Cum. Total & -- & 58,095 & -- \\ \bottomrule \end{tabular} \end{table}
+
+The collected data is summarised in Table~\ref{tab:s2o_items} (above). The S2O model has grown in publishing volume every single year since 2020.
+
+\textit{Astronomy and Astrophysics} is the journal which published the highest number of items under S2O in 2025, with 4043 published items. \textit{Astronomy and Astrophysics} is an S2O journal which also levies author-side fees (page charges) in addition to taking subscription money from libraries~\citep{aandaPageCharges2026}.
+
+Of the S2O journals which published one or more items in 2025, the mean number of published items is 69.3. The median of published items in S2O journals in 2025 is 27.
+
+The raw data per year, per journal is published alongside this report on Zenodo to enable and encourage re-use~\citep{mounce2026}.
+
+\section{Conclusion}
+I have data at the item level to illustrate the growth in academic publishing under the S2O business model. The number of articles published under this model between 2024 and 2025 nearly doubled (+96\% growth). A typical journal using S2O publishes 27 items per year, but at least a couple of S2O journals can and do publish several thousand items per year (\textit{Astronomy and Astrophysics} and \textit{Journal of Applied Physics}).
+
+More publishers and more journals started publishing items open access under the S2O model in 2026 such as The Royal Society (UK) and BioOne, and so I fully expect to see further year on year volume growth for 2026.
+
+Further efforts to continue the monitoring of the growth of publishing under the S2O model would be welcome.\\
+
+\bibliography{references}
+
+\section{Annex}
+
+Below is sample R code which illustrates how I went from ISSN-L's and OpenAlexID's to getting count data for the number of items published in each journal. I have no doubt that this code could be written more elegantly.
+
+\begin{minted}[frame=lines,fontsize=\small]{r}
+library(openalexR)
+library(dplyr)
+library(purrr)
+
+get_2025_counts_print_issn <- function(source_ids) {
+  
+  map_dfr(source_ids, function(src) {
+    
+    res <- oa_fetch(
+      identifier = src,
+      count_only = TRUE
+    )
+    
+    # Extract counts_by_year list
+    cby <- res$counts_by_year
+    
+    # Identify the 2025 row
+    row_2025 <- NULL
+    if (!is.null(cby)) {
+      idx <- which(vapply(cby, function(x) x$year, numeric(1)) == 2025)
+      if (length(idx) == 1) {
+        row_2025 <- cby[[idx]]
+      }
+    }
+    
+    # Determine print ISSN:
+    # Prefer issn_l (linking ISSN, usually print ISSN)
+    # Fallback: first ISSN in res$issn
+    print_issn <- if (!is.null(res$issn_l)) {
+      res$issn_l
+    } else if (!is.null(res$issn) && length(res$issn) > 0) {
+      res$issn[1]
+    } else {
+      NA_character_
+    }
+    
+    tibble(
+      source_id     = src,
+      display_name  = res$display_name,
+      print_issn    = print_issn,
+      year          = if (!is.null(row_2025)) row_2025$year else NA_integer_,
+      works_count   = if (!is.null(row_2025)) row_2025$works_count else NA_integer_
+    )
+  })
+}
+#load in the data. This can certainly be done more elegantly
+source_ids <- c(
+  "S4210184776",
+  "S4210201512",
+  "S156392881",
+  "S4210179480",
+  "S4210193403",
+  "S4306507974",
+  "S20368976",
+  "S100368719"
+)
+
+results_2025 <- get_2025_counts_print_issn(source_ids)
+results_2025
+write.csv(results_2025, "openalex_2025_counts.csv", row.names = FALSE)
+\end{minted}
+
+\end{document}
